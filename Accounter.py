@@ -3,13 +3,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import _datetime as dt
 
-
-def get_today_date():
-    return dt.datetime.now().strftime("%Y%m%d")
-
-
 class Accounter:
-    def add_new_data(self, value, comment, date):
+    def add_new_data(self, value, comment, date=dt.datetime.now().strftime("%Y%m%d")):
         day = pd.DataFrame([{'date': pd.Timestamp(date), 'value': value, 'comment': comment}])
         self.account = self.account.append(day)
 
@@ -69,9 +64,9 @@ if __name__ == "__main__":
     acc.drop_data()
     print('unsorted:')
     acc.add_new_data(1100, 'stepuha', '20170321')
-    acc.add_new_data(-200, 'eda', get_today_date())
+    acc.add_new_data(-200, 'eda')
     acc.add_new_data(999, 'eee babos', '20170322')
-    acc.add_new_data(-500, 'na pivandrii', get_today_date())
+    acc.add_new_data(-500, 'na pivandrii')
     acc.add_new_data(400, 'nashel na ulichke', '20170320')
     acc.add_new_data(-200, 'eda', '20140320')
     acc.add_new_data(-10, 'proebal', '20170319')
