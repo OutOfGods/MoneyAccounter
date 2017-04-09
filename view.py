@@ -27,15 +27,10 @@ def load_to_table(ui, acc):
     ui.table.setColumnWidth(0, 100)
     ui.table.setColumnWidth(1, 100)
     ui.table.horizontalHeader().setSectionResizeMode(2, QHeaderView.Stretch)
-    #ui.table.setColumnWidth(2, 350)
 
     # init table
     for i, [ n, row ] in enumerate(acc.account.iloc[::-1].iterrows()): # костылёк вышел, поцоны
         row_to_table(ui, i, row)
-        # ui.table.insertRow(ui.table.rowCount())
-        # ui.table.setItem(i, 0, QTableWidgetItem(str(row['value'])))
-        # ui.table.setItem(i, 1, QTableWidgetItem(row['date'].strftime("%d/%m/%Y")))
-        # ui.table.setItem(i, 2, QTableWidgetItem(row['comment']))
 
 def make_push_button_clicked(acc, ui):
     def push_button_clicked():
@@ -43,10 +38,6 @@ def make_push_button_clicked(acc, ui):
         comment=ui.commentLine.text()
         acc.add_new_data(value=value, comment=comment)
         row_to_table(ui, 0, acc.account.iloc[len(acc.account.index) - 1])
-        # ui.table.insertRow(0)
-        # ui.table.setItem(0, 0, QTableWidgetItem(str(value)))
-        # ui.table.setItem(0, 1, QTableWidgetItem(dt.datetime.now().strftime("%d/%m/%Y")))
-        # ui.table.setItem(0, 2, QTableWidgetItem(comment))
         
         print("add")
         print(ui.dateEdit.date().toString())
