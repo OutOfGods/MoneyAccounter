@@ -205,6 +205,7 @@ class Accounter:
 if __name__ == "__main__":
     import doctest
     doctest.testmod()
+    
     # acc = Accounter()
     # acc.drop_data()
     # print('unsorted:')
@@ -221,8 +222,8 @@ if __name__ == "__main__":
     # acc.sort_by_date()
     # acc.save_data()
     # acc.print_data()
-    # print('\nacc.get_by_date(\'20170320\', \'20170326\').get_expenses().print_data():')
-    # acc.get_by_date('20170320', '20170326').get_expenses().print_data()
+    # print('\nacc.get_by_date(\'20170320\', \'20170326\').get_outcome().print_data():')
+    # acc.get_by_date('20170320', '20170326').get_outcome().print_data()
     # print('\nacc.get_by_comment(\'eda\').print_data():')
     # acc.get_by_comment('eda').print_data()
     # print('\nacc.group_by_comment().print_data():')
