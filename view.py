@@ -6,9 +6,6 @@ from Accounter import *
 from Accounter import Accounter
 from ui_window import Ui_MainWindow
 import pandas as pd
-    
-def removeButton_clicked():
-    print("remove")
 
 def row_to_table(ui, row_num, row_series):
     ui.table.insertRow(row_num)
@@ -39,11 +36,14 @@ def make_push_button_clicked(acc, ui):
         acc.add_new_data(value=value, comment=comment)
         row_to_table(ui, 0, acc.account.iloc[len(acc.account.index) - 1])
         
-        print("add")
-        print(ui.dateEdit.date().toString())
-        print(acc)
-        print("------")
     return push_button_clicked
+
+def make_pop_button_clicked(acc, ui):
+    def pop_button_clicked():
+        acc.account.drop(acc.account.tail(1).index)
+        ui.table.removeRow(0)
+
+    return pop_button_clicked
 
 def start():
     app = QApplication(sys.argv)
@@ -58,7 +58,7 @@ def start():
     load_to_table(ui, acc)
 
     ui.push_button.clicked.connect(make_push_button_clicked(acc, ui))
-    ui.pop_button.clicked.connect(removeButton_clicked)        
+    ui.pop_button.clicked.connect(make_pop_button_clicked(acc, ui))
     
     window.show()
     sys.exit(app.exec_())
