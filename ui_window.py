@@ -68,3 +68,5 @@ class Ui_MainWindow(object):
         self.label.setText(_translate("MainWindow", "NEW RECORD"))
         self.checkBox.setText(_translate("MainWindow", "use this date?"))
 
+
+        

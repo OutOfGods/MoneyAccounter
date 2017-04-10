@@ -41,6 +41,7 @@ class Accounter:
            """
         day = pd.DataFrame([{'date': pd.Timestamp(date), 'value': value, 'comment': comment}])
         self.account = self.account.append(day)
+        self.account = self.account.reset_index(drop=True)
 
     def drop_data(self):
         """Delete all notes.
@@ -173,6 +174,9 @@ class Accounter:
         """Sort notes using date as key."""
         self.account = self.account.sort_values(['date'])
 
+    def sort_by_indexes(self):
+        self.account = self.account.sort_index()
+
     def get_income_sum(self):
         """Return sum of all incomes."""
         self.account[self.account.value > 0].value.sum()
@@ -190,6 +194,7 @@ class Accounter:
         try:
             with open('data.pickle', 'wb') as f:
                 pickle.dump(self.account, f)
+                print(self.account)
         except FileNotFoundError:
             print("File not found")
 
@@ -211,6 +216,7 @@ if __name__ == "__main__":
     # print('unsorted:')
     # acc.add_new_data(1100, 'stepuha', '20170321')
     # acc.add_new_data(-200, 'eda')
+
     # acc.add_new_data(999, 'eee babos', '20170322')
     # acc.add_new_data(-500, 'na pivandrii')
     # acc.add_new_data(400, 'nashel na ulichke', '20170320')

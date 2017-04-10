@@ -15,7 +15,7 @@ def row_to_table(ui, row_num, row_series):
 
 def load_to_table(ui, acc):
     acc.load_data()
-    print(acc)
+    # print(acc)
 
     # do things i didn't find a way to do with qt designer
     ui.table.setHorizontalHeaderItem(0, QTableWidgetItem("how much"))
@@ -26,26 +26,35 @@ def load_to_table(ui, acc):
     ui.table.horizontalHeader().setSectionResizeMode(2, QHeaderView.Stretch)
 
     # init table
-    for i, [ n, row ] in enumerate(acc.account.iloc[::-1].iterrows()): # костылёк вышел, поцоны
+    acc.sort_by_indexes()
+    for i, row in acc.account.iterrows():
         row_to_table(ui, i, row)
 
 def make_push_button_clicked(acc, ui):
     def push_button_clicked():
-        value=ui.amountLine.text()
-        comment=ui.commentLine.text()
-        acc.add_new_data(value=value, comment=comment)
+        # print(acc.account)
+        value = ui.amountLine.text()
+        comment = ui.commentLine.text()
+        # print(ui.checkBox.isChecked())
+        # print(date)
+        if ui.checkBox.isChecked():
+            date = ui.dateEdit.date().toPyDate().strftime("%Y%m%d")
+            acc.add_new_data(value=value, comment=comment, date=date)
+        else:
+            acc.add_new_data(value=value, comment=comment)
         row_to_table(ui, 0, acc.account.iloc[len(acc.account.index) - 1])
         
     return push_button_clicked
 
 def make_pop_button_clicked(acc, ui):
     def pop_button_clicked():
-        acc.account.drop(acc.account.tail(1).index)
+        acc.account = acc.account.drop(acc.account.tail(1).index)
+        print(acc)
         ui.table.removeRow(0)
 
     return pop_button_clicked
 
-def start():
+def start(acc):
     app = QApplication(sys.argv)
     window = QDialog()
     QShortcut(QKeySequence("Ctrl+Q"), window, window.close)
@@ -53,7 +62,7 @@ def start():
     ui = Ui_MainWindow()
     ui.setupUi(window)
 
-    acc = Accounter()
+    # acc = Accounter()
     
     load_to_table(ui, acc)
 
@@ -61,7 +70,10 @@ def start():
     ui.pop_button.clicked.connect(make_pop_button_clicked(acc, ui))
     
     window.show()
-    sys.exit(app.exec_())
+    app.exec_()
 
 if __name__== "__main__":
-    start()
+    acc = Accounter()
+    start(acc)
+    acc.save_data()
+    # sys.exit()
