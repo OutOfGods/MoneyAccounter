@@ -29,10 +29,14 @@ def load_to_table(ui, acc):
     ui.table.horizontalHeader().setSectionResizeMode(2, QHeaderView.Stretch)
 
     print(acc.account)
+    res = 0
+    ui.balance_l.setText("0")
     for i, row in acc.account.iloc[::-1].iterrows():
         # print(i)
         # print(row)
         row_to_table(ui, row)
+        res += int(row['value'])
+    ui.balance_l.setText(str(res))
 
 def make_push_button_clicked(acc, ui):
     """Function for push button clocking"""
@@ -47,15 +51,18 @@ def make_push_button_clicked(acc, ui):
             acc.add_new_data(value=value, comment=comment, date=date)
         else:
             acc.add_new_data(value=value, comment=comment)
-        row_to_table(ui, acc.account.iloc[len(acc.account.index) - 1], 0)
+        row_to_table(ui, acc.account.iloc[len(acc.account.index) - 1], 0)        
+        ui.balance_l.setText(str(int(ui.balance_l.text()) + int(value)))
     return push_button_clicked
 
 def make_pop_button_clicked(acc, ui):
     """Function for pop button clocking"""
     def pop_button_clicked():
+        ui.balance_l.setText(str(int(ui.balance_l.text()) - int(acc.account.tail(1)['value'])))
         acc.account = acc.account.drop(acc.account.tail(1).index)
         # print(acc)
         ui.table.removeRow(0)
+        
     return pop_button_clicked
 
 def make_filter_button_clicked(acc, ui):
@@ -77,6 +84,13 @@ def make_filter_button_clicked(acc, ui):
             ui.table.removeRow(0)
         load_to_table(ui, new_acc)
     return filter_button_clicked
+
+def update_balance(ui, acc):
+    res = 0
+    for i, row in acc.account:
+        res += int(row['value'])
+    ui.balance_l.setText(str(res))
+    
 
 def start():
     """Starts application"""

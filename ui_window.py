@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'gui.ui'
 #
-# Created: Tue Apr 11 17:27:10 2017
+# Created: Tue Apr 11 21:20:05 2017
 #      by: PyQt5 UI code generator 5.2.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -83,6 +83,13 @@ class Ui_MainWindow(object):
         self.by_comment_le = QtWidgets.QLineEdit(self.centralwidget)
         self.by_comment_le.setGeometry(QtCore.QRect(230, 420, 191, 27))
         self.by_comment_le.setObjectName("by_comment_le")
+        self.label_7 = QtWidgets.QLabel(self.centralwidget)
+        self.label_7.setGeometry(QtCore.QRect(500, 390, 66, 17))
+        self.label_7.setObjectName("label_7")
+        self.balance_l = QtWidgets.QLabel(self.centralwidget)
+        self.balance_l.setGeometry(QtCore.QRect(500, 420, 66, 17))
+        self.balance_l.setText("")
+        self.balance_l.setObjectName("balance_l")
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -100,4 +107,5 @@ class Ui_MainWindow(object):
         self.by_date_cb.setText(_translate("MainWindow", "by date"))
         self.sort_by_value_cb.setText(_translate("MainWindow", "sort by value"))
         self.by_comment_cb.setText(_translate("MainWindow", "by comment"))
+        self.label_7.setText(_translate("MainWindow", "BALANCE"))
 
