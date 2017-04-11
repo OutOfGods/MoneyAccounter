@@ -24,7 +24,7 @@ class Accounter:
             return 'List of notes is empty'
         return str(self.account)
 
-    def add_new_data(self, value, comment, date=dt.datetime.now()):
+    def add_new_data(self, value, comment, date=dt.datetime.now().strftime("%Y%m%d")):
         """Create new note from given value, date and comment.
            Date is read automatically from OS time.
            Date is python date.
@@ -40,7 +40,7 @@ class Accounter:
            0    kupil shaurmu 2017-03-25    -45
 
            """
-        day = pd.DataFrame([{'date': pd.Timestamp(date.strftime("%Y%m%d")), 'value': value, 'comment': comment}])
+        day = pd.DataFrame([{'date': pd.Timestamp(date), 'value': int(value), 'comment': comment}])
         self.account = self.account.append(day)
         self.account = self.account.reset_index(drop=True)
 
