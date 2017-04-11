@@ -12,7 +12,7 @@ class Accounter:
         """Create new Accounter object from existing DataFrame.
         >>> print(Accounter())
         List of notes is empty
-        >>> print(Accounter(pd.DataFrame([{'date': pd.Timestamp(dt.datetime.now().strftime("%Y%m%d")),
+        >>> print(Accounter(pd.DataFrame([{'date': pd.Timestamp("20170404"),
         ... 'value': 100, 'comment': 'new money'}])))
              comment       date  value
         0  new money 2017-04-04    100
@@ -63,13 +63,13 @@ class Accounter:
     def get_income(self):
         """Return Accounter object only with notes where you had an income.
         >>> acc1 = Accounter(pd.DataFrame([
-        ... {'date': pd.Timestamp(dt.datetime.now().strftime("%Y%m%d")),
+        ... {'date': pd.Timestamp("20170404"),
         ... 'value': 100, 'comment': 'new money'},
-        ... {'date': pd.Timestamp(dt.datetime.now().strftime("%Y%m%d")),
+        ... {'date': pd.Timestamp("20170404"),
         ... 'value': 250, 'comment': 'Neshta vernul dolg'},
-        ... {'date': pd.Timestamp(dt.datetime.now().strftime("%Y%m%d")),
+        ... {'date': pd.Timestamp("20170404"),
         ... 'value': -25, 'comment': 'kupil chai v happy cake'},
-        ... {'date': pd.Timestamp(dt.datetime.now().strftime("%Y%m%d")),
+        ... {'date': pd.Timestamp("20170404"),
         ... 'value': -2000, 'comment': 'zaplatil za obschagu'}
         ... ]))
         >>> print(acc1)
@@ -83,9 +83,9 @@ class Accounter:
         0           new money 2017-04-04    100
         1  Neshta vernul dolg 2017-04-04    250
         >>> acc2 = Accounter(pd.DataFrame([
-        ... {'date': pd.Timestamp(dt.datetime.now().strftime("%Y%m%d")),
+        ... {'date': pd.Timestamp("20170404"),
         ... 'value': -25, 'comment': 'kupil chai v happy cake'},
-        ... {'date': pd.Timestamp(dt.datetime.now().strftime("%Y%m%d")),
+        ... {'date': pd.Timestamp("20170404"),
         ... 'value': -2000, 'comment': 'zaplatil za obschagu'}
         ... ]))
         >>> print(acc2.get_income())
@@ -102,13 +102,13 @@ class Accounter:
     def get_outcome(self):
         """Return Accounter object only with notes where you had an outcome.
         >>> acc1 = Accounter(pd.DataFrame([
-        ... {'date': pd.Timestamp(dt.datetime.now().strftime("%Y%m%d")),
+        ... {'date': pd.Timestamp("20170404"),
         ... 'value': 100, 'comment': 'new money'},
-        ... {'date': pd.Timestamp(dt.datetime.now().strftime("%Y%m%d")),
+        ... {'date': pd.Timestamp("20170404"),
         ... 'value': 250, 'comment': 'Neshta vernul dolg'},
-        ... {'date': pd.Timestamp(dt.datetime.now().strftime("%Y%m%d")),
+        ... {'date': pd.Timestamp("20170404"),
         ... 'value': -25, 'comment': 'kupil chai v happy cake'},
-        ... {'date': pd.Timestamp(dt.datetime.now().strftime("%Y%m%d")),
+        ... {'date': pd.Timestamp("20170404"),
         ... 'value': -2000, 'comment': 'zaplatil za obschagu'}
         ... ]))
         >>> print(acc1)
@@ -122,9 +122,9 @@ class Accounter:
         2  kupil chai v happy cake 2017-04-04    -25
         3     zaplatil za obschagu 2017-04-04  -2000
         >>> acc2 = Accounter(pd.DataFrame([
-        ... {'date': pd.Timestamp(dt.datetime.now().strftime("%Y%m%d")),
+        ... {'date': pd.Timestamp("20170404"),
         ... 'value': 100, 'comment': 'new money'},
-        ... {'date': pd.Timestamp(dt.datetime.now().strftime("%Y%m%d")),
+        ... {'date': pd.Timestamp("20170404"),
         ... 'value': 250, 'comment': 'Neshta vernul dolg'}
         ... ]))
         >>> print(acc2.get_outcome())
@@ -133,61 +133,282 @@ class Accounter:
         >>> print(acc1.get_outcome())
         List of notes is empty
         """
-
         if len(self.account) == 0:
             return Accounter()
         return Accounter(self.account[self.account.value < 0])
 
     def get_by_comment(self, comm):
         """Return Accounter object with notes that have given comment.
+        >>> acc1 = Accounter(pd.DataFrame([
+        ... {'date': pd.Timestamp("20170404"),
+        ... 'value': 100, 'comment': 'new money'},
+        ... {'date': pd.Timestamp("20170404"),
+        ... 'value': 250, 'comment': 'Neshta vernul dolg'},
+        ... {'date': pd.Timestamp("20170404"),
+        ... 'value': -25, 'comment': 'kupil chai v happy cake'},
+        ... {'date': pd.Timestamp("20170404"),
+        ... 'value': -2000, 'comment': 'zaplatil za obschagu'}
+        ... ]))
+        >>> print(acc1)
+                           comment       date  value
+        0                new money 2017-04-04    100
+        1       Neshta vernul dolg 2017-04-04    250
+        2  kupil chai v happy cake 2017-04-04    -25
+        3     zaplatil za obschagu 2017-04-04  -2000
+        >>> print(acc1.get_by_comment("new money"))
+             comment       date  value
+        0  new money 2017-04-04    100
+        >>> print(acc1.get_by_comment("not com"))
+        List of notes is empty
         """
+        if len(self.account) == 0:
+            return Accounter()
         return Accounter(self.account[self.account.comment == comm])
 
     def get_by_date(self, date1, date2):
-        """Return Accounter object with notes that have date attribute in given range."""
+        """Return Accounter object with notes that have date attribute in given range.
+        >>> acc1 = Accounter(pd.DataFrame([
+        ... {'date': pd.Timestamp("20170404"),
+        ... 'value': 100, 'comment': 'new money'},
+        ... {'date': pd.Timestamp("20170405"),
+        ... 'value': 250, 'comment': 'Neshta vernul dolg'},
+        ... {'date': pd.Timestamp("20170406"),
+        ... 'value': -25, 'comment': 'kupil chai v happy cake'},
+        ... {'date': pd.Timestamp("20170407"),
+        ... 'value': -2000, 'comment': 'zaplatil za obschagu'}
+        ... ]))
+        >>> print(acc1)
+                           comment       date  value
+        0                new money 2017-04-04    100
+        1       Neshta vernul dolg 2017-04-05    250
+        2  kupil chai v happy cake 2017-04-06    -25
+        3     zaplatil za obschagu 2017-04-07  -2000
+        >>> print(acc1.get_by_date("20170404", "20170405"))
+                      comment       date  value
+        0           new money 2017-04-04    100
+        1  Neshta vernul dolg 2017-04-05    250
+        >>> print(acc1.get_by_date("20170404", "20170404"))
+             comment       date  value
+        0  new money 2017-04-04    100
+        """
+        if len(self.account) == 0:
+            return Accounter()
         return Accounter(self.account[(self.account.date >= pd.Timestamp(date1)) &
                                       (self.account.date <= pd.Timestamp(date2))])
 
     def get_income_by_range(self, from_value, to_value):
-        """Return Accounter object with notes that have income in given range."""
+        """Return Accounter object with notes that have income in given range.
+        >>> acc = Accounter(pd.DataFrame([
+        ... {'date': pd.Timestamp('20170404'),
+        ... 'value': 100, 'comment': 'new money'},
+        ... {'date': pd.Timestamp('20170404'),
+        ... 'value': 250, 'comment': 'Neshta vernul dolg'},
+        ... {'date': pd.Timestamp('20170404'),
+        ... 'value': -25, 'comment': 'kupil chai v happy cake'},
+        ... {'date': pd.Timestamp('20170404'),
+        ... 'value': -2000, 'comment': 'zaplatil za obschagu'}
+        ... ]))
+        >>> print(acc.get_income_by_range(200, 500))
+                      comment       date  value
+        1  Neshta vernul dolg 2017-04-04    250
+
+        """
+        if len(self.account) == 0:
+            return Accounter()
         return Accounter(self.account[(self.account.value >= from_value) &
-                                      (self.account.date <= to_value)])
+                                      (self.account.value <= to_value)])
 
     def get_outcome_by_range(self, from_value, to_value):
-        """Return Accounter object with notes that have outcome in given range."""
+        """Return Accounter object with notes that have outcome in given range.
+        >>> acc = Accounter(pd.DataFrame([
+        ... {'date': pd.Timestamp('20170404'),
+        ... 'value': 100, 'comment': 'new money'},
+        ... {'date': pd.Timestamp('20170404'),
+        ... 'value': 250, 'comment': 'Neshta vernul dolg'},
+        ... {'date': pd.Timestamp('20170404'),
+        ... 'value': -25, 'comment': 'kupil chai v happy cake'},
+        ... {'date': pd.Timestamp('20170404'),
+        ... 'value': -2000, 'comment': 'zaplatil za obschagu'}
+        ... ]))
+        >>> print(acc.get_outcome_by_range(2000, 4000))
+                        comment       date  value
+        3  zaplatil za obschagu 2017-04-04  -2000
+        """
+        if len(self.account) == 0:
+            return Accounter()
         return Accounter(self.account[(self.account.value >= -to_value) &
-                                      (self.account.date <= -from_value)])
+                                      (self.account.value <= -from_value)])
 
     def group_by_comment(self):
-        """Return Accounter object with notes grouped by comment."""
+        """Return Accounter object with notes grouped by comment.
+        >>> acc1 = Accounter(pd.DataFrame([
+        ... {'date': pd.Timestamp("20170404"),
+        ... 'value': 100, 'comment': 'new money'},
+        ... {'date': pd.Timestamp("20170405"),
+        ... 'value': 250, 'comment': 'new money'},
+        ... {'date': pd.Timestamp("20170406"),
+        ... 'value': -25, 'comment': 'kupil chai v happy cake'},
+        ... {'date': pd.Timestamp("20170407"),
+        ... 'value': -2000, 'comment': 'zaplatil za obschagu'}
+        ... ]))
+        >>> print(acc1)
+                           comment       date  value
+        0                new money 2017-04-04    100
+        1                new money 2017-04-05    250
+        2  kupil chai v happy cake 2017-04-06    -25
+        3     zaplatil za obschagu 2017-04-07  -2000
+        >>> acc1.group_by_comment().account.values
+        array([[  -25],
+               [  350],
+               [-2000]], dtype=int64)
+        """
+        if len(self.account) == 0:
+            return Accounter()
         return Accounter(self.account.groupby('comment').sum())
 
     def group_by_date(self):
-        """Return Accounter object with notes grouped by date."""
+        """Return Accounter object with notes grouped by date.
+        >>> acc1 = Accounter(pd.DataFrame([
+        ... {'date': "20170404",
+        ... 'value': 100, 'comment': 'new money'},
+        ... {'date': "20170404",
+        ... 'value': 250, 'comment': 'new money'},
+        ... {'date': "20170405",
+        ... 'value': -25, 'comment': 'kupil chai v happy cake'},
+        ... {'date': "20170405",
+        ... 'value': -2000, 'comment': 'zaplatil za obschagu'}
+        ... ]))
+        >>> print(acc1)
+                           comment      date  value
+        0                new money  20170404    100
+        1                new money  20170404    250
+        2  kupil chai v happy cake  20170405    -25
+        3     zaplatil za obschagu  20170405  -2000
+        >>> acc1.group_by_date().account.values
+        array([[  350],
+               [-2025]], dtype=int64)
+        """
+        if len(self.account) == 0:
+            return Accounter()
         return Accounter(self.account.groupby('date').sum())
 
     def print_data(self):
-        """Show all notes in accounter."""
+        """Show all notes in accounter.
+        >>> Accounter(pd.DataFrame([{'date': pd.Timestamp('20170404'),
+        ... 'comment': 'new money', 'value': 50}])).print_data()
+        **************************************************
+             comment       date  value
+        0  new money 2017-04-04     50
+        >>> Accounter().print_data()
+        **************************************************
+        List of notes is empty
+        """
         print('*'*50)
-        print(self.account)
+        print(self)
 
     def sort_by_date(self):
-        """Sort notes using date as key."""
+        """Sort notes using date as key.
+        >>> acc = Accounter(pd.DataFrame([
+        ... {'date': pd.Timestamp('20170404'),
+        ... 'value': 100, 'comment': 'new money'},
+        ... {'date': pd.Timestamp('20170402'),
+        ... 'value': 250, 'comment': 'Neshta vernul dolg'},
+        ... {'date': pd.Timestamp('20170411'),
+        ... 'value': -25, 'comment': 'kupil chai v happy cake'},
+        ... {'date': pd.Timestamp('20170408'),
+        ... 'value': -2000, 'comment': 'zaplatil za obschagu'}
+        ... ]))
+        >>> print(acc)
+                           comment       date  value
+        0                new money 2017-04-04    100
+        1       Neshta vernul dolg 2017-04-02    250
+        2  kupil chai v happy cake 2017-04-11    -25
+        3     zaplatil za obschagu 2017-04-08  -2000
+        >>> acc.sort_by_date()
+        >>> print(acc)
+                           comment       date  value
+        1       Neshta vernul dolg 2017-04-02    250
+        0                new money 2017-04-04    100
+        3     zaplatil za obschagu 2017-04-08  -2000
+        2  kupil chai v happy cake 2017-04-11    -25
+        """
         self.account = self.account.sort_values(['date'])
 
     def sort_by_indexes(self):
         self.account = self.account.sort_index()
 
     def get_income_sum(self):
-        """Return sum of all incomes."""
-        self.account[self.account.value > 0].value.sum()
+        """Return sum of all incomes.
+        >>> acc1 = Accounter(pd.DataFrame([
+        ... {'date': "20170404",
+        ... 'value': 100, 'comment': 'new money'},
+        ... {'date': "20170403",
+        ... 'value': 250, 'comment': 'new money'},
+        ... {'date': "20170402",
+        ... 'value': -25, 'comment': 'kupil chai v happy cake'},
+        ... {'date': "20170405",
+        ... 'value': -2000, 'comment': 'zaplatil za obschagu'}
+        ... ]))
+        >>> print(acc1)
+                           comment      date  value
+        0                new money  20170404    100
+        1                new money  20170403    250
+        2  kupil chai v happy cake  20170402    -25
+        3     zaplatil za obschagu  20170405  -2000
+        >>> print(acc1.get_income_sum())
+        350
+        """
+        if len(self.account) == 0:
+            return Accounter()
+        return self.account[self.account.value > 0].value.sum()
 
     def get_outcome_sum(self):
-        """Return sum of all outcomes."""
-        self.account[self.account.value < 0].value.sum()
+        """Return sum of all outcomes.
+        >>> acc1 = Accounter(pd.DataFrame([
+        ... {'date': "20170404",
+        ... 'value': 100, 'comment': 'new money'},
+        ... {'date': "20170403",
+        ... 'value': 250, 'comment': 'new money'},
+        ... {'date': "20170402",
+        ... 'value': -25, 'comment': 'kupil chai v happy cake'},
+        ... {'date': "20170405",
+        ... 'value': -2000, 'comment': 'zaplatil za obschagu'}
+        ... ]))
+        >>> print(acc1)
+                           comment      date  value
+        0                new money  20170404    100
+        1                new money  20170403    250
+        2  kupil chai v happy cake  20170402    -25
+        3     zaplatil za obschagu  20170405  -2000
+        >>> print(acc1.get_outcome_sum())
+        -2025
+        """
+        if len(self.account) == 0:
+            return Accounter()
+        return self.account[self.account.value < 0].value.sum()
 
     def get_sum(self):
-        """Return sum of all income and outcome."""
+        """Return sum of all income and outcome.
+        >>> acc1 = Accounter(pd.DataFrame([
+        ... {'date': "20170404",
+        ... 'value': 100, 'comment': 'new money'},
+        ... {'date': "20170403",
+        ... 'value': 250, 'comment': 'new money'},
+        ... {'date': "20170402",
+        ... 'value': -25, 'comment': 'kupil chai v happy cake'},
+        ... {'date': "20170405",
+        ... 'value': -2000, 'comment': 'zaplatil za obschagu'}
+        ... ]))
+        >>> print(acc1)
+                           comment      date  value
+        0                new money  20170404    100
+        1                new money  20170403    250
+        2  kupil chai v happy cake  20170402    -25
+        3     zaplatil za obschagu  20170405  -2000
+        >>> print(acc1.get_sum())
+        -1675"""
+        if len(self.account) == 0:
+            return Accounter()
         return self.account.value.sum()
 
     def save_data(self):
@@ -206,12 +427,11 @@ class Accounter:
                 self.account = pickle.load(f)
         except FileNotFoundError:
             print("File not found")
-            self.account = acc
 
 if __name__ == "__main__":
     import doctest
     doctest.testmod()
-    
+
     # acc = Accounter()
     # acc.drop_data()
     # print('unsorted:')
@@ -240,4 +460,4 @@ if __name__ == "__main__":
     # print('*'*20, "print some summ:")
     # print("Sum for comment *eda*: ", acc.get_by_comment('eda').get_sum())
     # print("Sum for all table: ", acc.get_sum())
-
+    # acc.get_by_comment("das").print_data()
