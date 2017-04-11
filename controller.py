@@ -5,6 +5,7 @@ from Accounter import Accounter
 from ui_window import Ui_MainWindow
 from view import *
 
+
 def start():
     """Starts application"""
     app = QApplication(sys.argv)

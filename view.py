@@ -1,7 +1,6 @@
 from PyQt5.QtWidgets import *
 
 
-
 def row_to_table(ui, row_series, num=None):
     """Writes row_series to ui.table"""
     if num is None:
@@ -48,7 +47,7 @@ def make_push_button_clicked(acc, ui):
             acc.add_new_data(value=value, comment=comment, date=date)
         else:
             acc.add_new_data(value=value, comment=comment)
-        row_to_table(ui, acc.account.iloc[len(acc.account.index) - 1], 0)        
+        row_to_table(ui, acc.account.iloc[len(acc.account.index)-1], 0)
         ui.balance_l.setText(str(int(ui.balance_l.text()) + int(value)))
     return push_button_clicked
 
@@ -56,11 +55,10 @@ def make_push_button_clicked(acc, ui):
 def make_pop_button_clicked(acc, ui):
     """Function for pop button clocking"""
     def pop_button_clicked():
-        ui.balance_l.setText(str(int(ui.balance_l.text()) - int(acc.account.tail(1)['value'])))
+        ui.balance_l.setText(str(int(ui.balance_l.text())-int(acc.account.tail(1)['value'])))
         acc.account = acc.account.drop(acc.account.tail(1).index)
         # print(acc)
         ui.table.removeRow(0)
-        
     return pop_button_clicked
 
 
@@ -71,10 +69,11 @@ def make_filter_button_clicked(acc, ui):
         new_acc = acc
         if ui.by_date_cb.isChecked():
             print("by date")
-            new_acc = new_acc.get_by_date(ui.from_date.date().toPyDate().strftime("%Y%m%d"), ui.to_date.date().toPyDate().strftime("%Y%m%d"))
+            new_acc = new_acc.get_by_date(ui.from_date.date().toPyDate().strftime("%Y%m%d"),
+                                          ui.to_date.date().toPyDate().strftime("%Y%m%d"))
         if ui.sort_by_value_cb.isChecked():
             print("by val")
-            new_acc.account =  new_acc.account.sort_values(["value"])
+            new_acc.account = new_acc.account.sort_values(["value"])
         if ui.by_comment_cb.isChecked():
             print("by comment")
             new_acc = new_acc.get_by_comment(ui.by_comment_le.text())
@@ -84,9 +83,9 @@ def make_filter_button_clicked(acc, ui):
         load_to_table(ui, new_acc)
     return filter_button_clicked
 
+
 def update_balance(ui, acc):
     res = 0
     for i, row in acc.account:
         res += int(row['value'])
     ui.balance_l.setText(str(res))
-    
