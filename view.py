@@ -1,13 +1,8 @@
-import sys
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-from Accounter import *
-from Accounter import Accounter
-from ui_window import Ui_MainWindow
-import pandas as pd
 
-def row_to_table(ui, row_series, num = None):
+
+
+def row_to_table(ui, row_series, num=None):
     """Writes row_series to ui.table"""
     if num is None:
         num = ui.table.rowCount()
@@ -15,6 +10,7 @@ def row_to_table(ui, row_series, num = None):
     ui.table.setItem(num, 0, QTableWidgetItem(str(row_series['value'])))
     ui.table.setItem(num, 1, QTableWidgetItem(row_series['date'].strftime("%d/%m/%Y")))
     ui.table.setItem(num, 2, QTableWidgetItem(row_series['comment']))
+
 
 def load_to_table(ui, acc):
     """Loads contents of acc to table widget"""
@@ -38,6 +34,7 @@ def load_to_table(ui, acc):
         res += int(row['value'])
     ui.balance_l.setText(str(res))
 
+
 def make_push_button_clicked(acc, ui):
     """Function for push button clocking"""
     def push_button_clicked():
@@ -55,6 +52,7 @@ def make_push_button_clicked(acc, ui):
         ui.balance_l.setText(str(int(ui.balance_l.text()) + int(value)))
     return push_button_clicked
 
+
 def make_pop_button_clicked(acc, ui):
     """Function for pop button clocking"""
     def pop_button_clicked():
@@ -65,11 +63,12 @@ def make_pop_button_clicked(acc, ui):
         
     return pop_button_clicked
 
+
 def make_filter_button_clicked(acc, ui):
     """Function for filter button clocking"""
     def filter_button_clicked():
         print("filter")
-        new_acc = acc;
+        new_acc = acc
         if ui.by_date_cb.isChecked():
             print("by date")
             new_acc = new_acc.get_by_date(ui.from_date.date().toPyDate().strftime("%Y%m%d"), ui.to_date.date().toPyDate().strftime("%Y%m%d"))
@@ -91,33 +90,3 @@ def update_balance(ui, acc):
         res += int(row['value'])
     ui.balance_l.setText(str(res))
     
-
-def start():
-    """Starts application"""
-    app = QApplication(sys.argv)
-    window = QDialog()
-    QShortcut(QKeySequence("Ctrl+Q"), window, window.close)
-    
-    ui = Ui_MainWindow()
-    ui.setupUi(window)
-    ui.dateEdit.setDate(QDate.currentDate())
-    ui.from_date.setDate(QDate.currentDate())
-    ui.to_date.setDate(QDate.currentDate())
-    
-    acc = Accounter()
-    
-    acc.load_data()
-    acc.sort_by_date()
-    load_to_table(ui, acc)
-
-    ui.push_button.clicked.connect(make_push_button_clicked(acc, ui))
-    ui.pop_button.clicked.connect(make_pop_button_clicked(acc, ui))
-    ui.filter_button.clicked.connect(make_filter_button_clicked(acc, ui))
-    
-    window.show()
-    app.exec_()
-    acc.save_data()
-
-if __name__== "__main__":
-    start()
-    sys.exit()
