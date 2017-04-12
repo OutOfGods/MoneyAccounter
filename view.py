@@ -24,14 +24,12 @@ def load_to_table(ui, acc):
     ui.table.horizontalHeader().setSectionResizeMode(2, QHeaderView.Stretch)
 
     print(acc.account)
-    res = 0
     ui.balance_l.setText("0")
     for i, row in acc.account.iloc[::-1].iterrows():
         # print(i)
         # print(row)
         row_to_table(ui, row)
-        res += int(row['value'])
-    ui.balance_l.setText(str(res))
+    ui.balance_l.setText(str(acc.get_sum()))
 
 
 def make_push_button_clicked(acc, ui):
@@ -48,15 +46,15 @@ def make_push_button_clicked(acc, ui):
         else:
             acc.add_new_data(value=value, comment=comment)
         row_to_table(ui, acc.account.iloc[len(acc.account.index)-1], 0)
-        ui.balance_l.setText(str(int(ui.balance_l.text()) + int(value)))
+        ui.balance_l.setText(str(acc.get_sum()))
     return push_button_clicked
 
 
 def make_pop_button_clicked(acc, ui):
     """Function for pop button clocking"""
     def pop_button_clicked():
-        ui.balance_l.setText(str(int(ui.balance_l.text())-int(acc.account.tail(1)['value'])))
         acc.account = acc.account.drop(acc.account.tail(1).index)
+        ui.balance_l.setText(str(acc.get_sum()))
         # print(acc)
         ui.table.removeRow(0)
     return pop_button_clicked

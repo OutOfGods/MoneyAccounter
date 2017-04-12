@@ -247,7 +247,7 @@ class Accounter:
         3  zaplatil za obschagu 2017-04-04  -2000
         """
         if len(self.account) == 0:
-            return Accounter()
+            return 0
         return Accounter(self.account[(self.account.value >= -to_value) &
                                       (self.account.value <= -from_value)])
 
@@ -373,7 +373,7 @@ class Accounter:
         350
         """
         if len(self.account) == 0:
-            return Accounter()
+            return 0
         return self.account[self.account.value > 0].value.sum()
 
     def get_outcome_sum(self):
@@ -398,7 +398,7 @@ class Accounter:
         -2025
         """
         if len(self.account) == 0:
-            return Accounter()
+            return 0
         return self.account[self.account.value < 0].value.sum()
 
     def get_sum(self):
@@ -422,7 +422,7 @@ class Accounter:
         >>> print(acc1.get_sum())
         -1675"""
         if len(self.account) == 0:
-            return Accounter()
+            return 0
         return self.account.value.sum()
 
     def save_data(self):
