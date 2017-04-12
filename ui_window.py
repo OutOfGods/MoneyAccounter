@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'gui.ui'
 #
-# Created: Tue Apr 11 21:20:05 2017
+# Created: Wed Apr 12 11:39:17 2017
 #      by: PyQt5 UI code generator 5.2.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -38,12 +38,12 @@ class Ui_MainWindow(object):
         self.amountLine = QtWidgets.QLineEdit(self.centralwidget)
         self.amountLine.setGeometry(QtCore.QRect(10, 260, 91, 27))
         self.amountLine.setObjectName("amountLine")
-        self.dateEdit = QtWidgets.QDateEdit(self.centralwidget)
-        self.dateEdit.setGeometry(QtCore.QRect(500, 260, 111, 27))
-        self.dateEdit.setObjectName("dateEdit")
         self.commentLine = QtWidgets.QLineEdit(self.centralwidget)
         self.commentLine.setGeometry(QtCore.QRect(110, 260, 381, 27))
         self.commentLine.setObjectName("commentLine")
+        self.dateEdit = QtWidgets.QDateEdit(self.centralwidget)
+        self.dateEdit.setGeometry(QtCore.QRect(500, 260, 111, 27))
+        self.dateEdit.setObjectName("dateEdit")
         self.push_button = QtWidgets.QPushButton(self.centralwidget)
         self.push_button.setGeometry(QtCore.QRect(10, 300, 91, 26))
         self.push_button.setObjectName("push_button")
