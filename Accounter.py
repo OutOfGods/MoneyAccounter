@@ -272,7 +272,7 @@ class Accounter:
         >>> acc1.group_by_comment().account.values
         array([[  -25],
                [  350],
-               [-2000]], dtype=int64)
+               [-2000]])
         """
         if len(self.account) == 0:
             return Accounter()
@@ -298,7 +298,7 @@ class Accounter:
         3     zaplatil za obschagu  20170405  -2000
         >>> acc1.group_by_date().account.values
         array([[  350],
-               [-2025]], dtype=int64)
+               [-2025]])
         """
         if len(self.account) == 0:
             return Accounter()
