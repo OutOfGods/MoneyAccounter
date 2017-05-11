@@ -23,7 +23,7 @@ def load_to_table(ui, acc):
     ui.table.setColumnWidth(1, 100)
     ui.table.horizontalHeader().setSectionResizeMode(2, QHeaderView.Stretch)
 
-    print(acc.account)
+    print(acc)
     ui.balance_l.setText("0")
     for i, row in acc.account.iloc[::-1].iterrows():
         # print(i)

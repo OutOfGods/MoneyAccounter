@@ -1,7 +1,7 @@
 import sys
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
-from Accounter import Accounter
+from accounter import Accounter
 from ui_window import Ui_MainWindow
 from view import *
 

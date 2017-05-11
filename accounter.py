@@ -56,9 +56,6 @@ class Accounter:
         0  nashel v kurtke 2017-03-21     25
         1    kupil shaurmu 2017-03-25    -45
         >>> acc.drop_data()
-        Empty DataFrame
-        Columns: []
-        Index: []
         >>> print(acc)
         List of notes is empty
         """
@@ -96,9 +93,6 @@ class Accounter:
         >>> print(acc2.get_income())
         List of notes is empty
         >>> acc1.drop_data()
-        Empty DataFrame
-        Columns: []
-        Index: []
         >>> print(acc1.get_income())
         List of notes is empty
         """
@@ -137,9 +131,6 @@ class Accounter:
         >>> print(acc2.get_outcome())
         List of notes is empty
         >>> acc1.drop_data()
-        Empty DataFrame
-        Columns: []
-        Index: []
         >>> print(acc1.get_outcome())
         List of notes is empty
         """
@@ -269,10 +260,12 @@ class Accounter:
         1                new money 2017-04-05    250
         2  kupil chai v happy cake 2017-04-06    -25
         3     zaplatil za obschagu 2017-04-07  -2000
-        >>> acc1.group_by_comment().account.values
-        array([[  -25],
-               [  350],
-               [-2000]])
+        >>> print(acc1.group_by_comment())
+                                 value
+        comment
+        kupil chai v happy cake    -25
+        new money                  350
+        zaplatil za obschagu     -2000
         """
         if len(self.account) == 0:
             return Accounter()
@@ -296,9 +289,11 @@ class Accounter:
         1                new money  20170404    250
         2  kupil chai v happy cake  20170405    -25
         3     zaplatil za obschagu  20170405  -2000
-        >>> acc1.group_by_date().account.values
-        array([[  350],
-               [-2025]])
+        >>> print(acc1.group_by_date())
+                  value
+        date
+        20170404    350
+        20170405  -2025
         """
         if len(self.account) == 0:
             return Accounter()
@@ -430,7 +425,6 @@ class Accounter:
         try:
             with open('data.pickle', 'wb') as f:
                 pickle.dump(self.account, f)
-                print(self.account)
         except FileNotFoundError:
             print("File not found")
 
