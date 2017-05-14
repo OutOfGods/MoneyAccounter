@@ -15,11 +15,14 @@ def serialize(obj, file_name):
 
 
 def deserialize(file_name):
-    with open(file_name) as f:
-        obj = yaml.safe_load(f)
-        for record in obj:
-            record['date'] = pd.Timestamp(record['date'])
-        return accounter.Accounter(pd.DataFrame(obj))
+    try:
+        with open(file_name) as f:
+            obj = yaml.safe_load(f)
+            for record in obj:
+                record['date'] = pd.Timestamp(record['date'])
+            return accounter.Accounter(pd.DataFrame(obj))
+    except FileNotFoundError:
+        print("File not found")
 
 
 if __name__ == '__main__':

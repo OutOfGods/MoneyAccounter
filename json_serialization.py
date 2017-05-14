@@ -22,11 +22,14 @@ def serialize(obj, file_name):
 
 
 def deserialize(file_name):
-    with open(file_name) as f:
-        lst = json.load(f)
-        for record in lst:
-            record['date'] = pd.Timestamp(record['date'])
-        return accounter.Accounter(pd.DataFrame(lst))
+    try:
+        with open(file_name) as f:
+            lst = json.load(f)
+            for record in lst:
+                record['date'] = pd.Timestamp(record['date'])
+            return accounter.Accounter(pd.DataFrame(lst))
+    except FileNotFoundError:
+        print("File not found")
 
 
 if __name__ == '__main__':
