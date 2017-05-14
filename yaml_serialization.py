@@ -24,18 +24,11 @@ def deserialize(file_name):
     try:
         with open(file_name) as f:
             obj = yaml.safe_load(f)
-            for record in obj:
-                record['date'] = pd.Timestamp(record['date'])
-            return accounter.Accounter(pd.DataFrame(obj))
+            if obj is not None:
+                for record in obj:
+                    record['date'] = pd.Timestamp(record['date'])
+                return pd.DataFrame(obj)
+            return pd.DataFrame()
     except FileNotFoundError:
         print("File not found")
 
-
-if __name__ == '__main__':
-    acc = accounter.Accounter()
-    acc.load_data()
-    print(acc)
-    print("")
-    serialize(acc, 'accounter.yaml')
-    acc = deserialize('accounter.yaml')
-    print(acc)

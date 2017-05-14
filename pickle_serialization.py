@@ -7,7 +7,7 @@ def serialize(obj, file_name):
     Encode obj to binary row using pickle write it into file.
     """
     with open(file_name, 'wb') as f:
-        pickle.dump(obj, f)
+        pickle.dump(obj.account, f)
 
 
 def deserialize(file_name):
@@ -16,17 +16,8 @@ def deserialize(file_name):
     """
     try:
         with open(file_name, 'rb') as f:
-            obj = pickle.load(f)
-        return obj
+            data = pickle.load(f)
+        return data
     except FileNotFoundError:
         print("File not found")
 
-
-if __name__ == '__main__':
-    acc = accounter.Accounter()
-    acc.load_data()
-    print(acc)
-    print("")
-    serialize(acc, 'accounter.pickle')
-    acc = deserialize('accounter.pickle')
-    print(acc)

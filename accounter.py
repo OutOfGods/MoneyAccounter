@@ -1,14 +1,14 @@
 import _pickle as pickle
 import pandas as pd
-# import matplotlib.pyplot as plt
 import _datetime as dt
+import configparser
 
 
 class Accounter:
     """This class implements simple money accounter.
        You can use it for storing notes about your income and
        outcome, search notes and group them by their attributes."""
-    def __init__(self, acc=pd.DataFrame()):
+    def __init__(self, acc=pd.DataFrame(), data_file='accounter', config_file='configuration.ini'):
         """Create new Accounter object from existing DataFrame.
         >>> print(Accounter())
         List of notes is empty
@@ -18,6 +18,8 @@ class Accounter:
         0  new money 2017-04-04    100
         """
         self.account = acc
+        self.data_file = data_file
+        self.config_file = config_file
 
     def __str__(self):
         if len(self.account) == 0:
@@ -421,20 +423,36 @@ class Accounter:
         return self.account.value.sum()
 
     def save_data(self):
-        """Save data into binary file using _pickle."""
-        try:
-            with open('data.pickle', 'wb') as f:
-                pickle.dump(self.account, f)
-        except FileNotFoundError:
-            print("File not found")
+        """Serialize data into file using method specified in configuration file."""
+        config = configparser.ConfigParser()
+        config.read(self.config_file)
+        if 'Serialization' in config:
+            if config['Serialization']['Method'] == 'pickle':
+                import pickle_serialization
+                pickle_serialization.serialize(self, self.data_file + '.pickle')
+            elif config['Serialization']['Method'] == 'json':
+                import json_serialization
+                json_serialization.serialize(self, self.data_file + '.json')
+            elif config['Serialization']['Method'] == 'yaml':
+                import yaml_serialization
+                yaml_serialization.serialize(self, self.data_file + '.yaml')
+
 
     def load_data(self):
-        """Load data from binary file using _pickle."""
-        try:
-            with open('data.pickle', 'rb') as f:
-                self.account = pickle.load(f)
-        except FileNotFoundError:
-            print("File not found")
+        """Load data from file."""
+        config = configparser.ConfigParser()
+        config.read(self.config_file)
+        if 'Serialization' in config:
+            if config['Serialization']['Method'] == 'pickle':
+                import pickle_serialization
+                self.account = pickle_serialization.deserialize(self.data_file + '.pickle')
+            elif config['Serialization']['Method'] == 'json':
+                print('here')
+                import json_serialization
+                self.account = json_serialization.deserialize(self.data_file + '.json')
+            elif config['Serialization']['Method'] == 'yaml':
+                import yaml_serialization
+                self.account = yaml_serialization.deserialize(self.data_file + '.yaml')
 
 if __name__ == "__main__":
     import doctest

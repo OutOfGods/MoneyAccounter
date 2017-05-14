@@ -40,17 +40,8 @@ def deserialize(file_name):
             lst = json.load(f)
             for record in lst:
                 record['date'] = pd.Timestamp(record['date'])
-            return accounter.Accounter(pd.DataFrame(lst))
+            return pd.DataFrame(lst)
     except FileNotFoundError:
         print("File not found")
 
-
-if __name__ == '__main__':
-    acc = accounter.Accounter()
-    acc.load_data()
-    print(acc)
-    print("")
-    serialize(acc, 'accounter.json')
-    acc = deserialize('accounter.json')
-    print(acc)
 
