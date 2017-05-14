@@ -3,6 +3,9 @@ import pandas as pd
 import yaml
 
 def serialize(obj, file_name):
+    """
+    Encode obj to yaml format and write it into file.
+    """
     rows_list = []
     for i in range(len(obj.account)):
         row_dict = {}
@@ -15,6 +18,9 @@ def serialize(obj, file_name):
 
 
 def deserialize(file_name):
+    """
+    Decode from yaml file to Python-object.
+    """
     try:
         with open(file_name) as f:
             obj = yaml.safe_load(f)
