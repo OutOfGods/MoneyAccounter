@@ -3,6 +3,10 @@ import pandas as pd
 import _datetime as dt
 import configparser
 
+import pickle_serialization
+import json_serialization
+import yaml_serialization
+
 
 class Accounter:
     """This class implements simple money accounter.
@@ -442,17 +446,12 @@ class Accounter:
         """Load data from file."""
         config = configparser.ConfigParser()
         config.read(self.config_file)
-        if 'Serialization' in config:
-            if config['Serialization']['Method'] == 'pickle':
-                import pickle_serialization
-                self.account = pickle_serialization.deserialize(self.data_file + '.pickle')
-            elif config['Serialization']['Method'] == 'json':
-                print('here')
-                import json_serialization
-                self.account = json_serialization.deserialize(self.data_file + '.json')
-            elif config['Serialization']['Method'] == 'yaml':
-                import yaml_serialization
-                self.account = yaml_serialization.deserialize(self.data_file + '.yaml')
+        accounts = []
+        accounts.append(pickle_serialization.deserialize(self.data_file + '.pickle'))
+        accounts.append(json_serialization.deserialize(self.data_file + '.json'))
+        accounts.append(yaml_serialization.deserialize(self.data_file + '.yaml'))
+        self.account = max(accounts, key=lambda a: a['date'].iloc[-1])
+
 
 if __name__ == "__main__":
     import doctest
