@@ -2,6 +2,7 @@ import _pickle as pickle
 import pandas as pd
 import _datetime as dt
 import configparser
+import os
 
 import pickle_serialization
 import json_serialization
@@ -446,11 +447,19 @@ class Accounter:
         """Load data from file."""
         config = configparser.ConfigParser()
         config.read(self.config_file)
-        accounts = []
-        accounts.append(pickle_serialization.deserialize(self.data_file + '.pickle'))
-        accounts.append(json_serialization.deserialize(self.data_file + '.json'))
-        accounts.append(yaml_serialization.deserialize(self.data_file + '.yaml'))
-        self.account = max(accounts, key=lambda a: a['date'].iloc[-1])
+        data_files = []
+        data_files.append(self.data_file + '.pickle')
+        data_files.append(self.data_file + '.json')
+        data_files.append(self.data_file + '.yaml')
+        print(data_files)
+        last_changed_file = max(data_files, key=lambda a: os.path.getmtime(a))
+        if last_changed_file == self.data_file + '.pickle':
+            self.account = pickle_serialization.deserialize(last_changed_file)
+        elif last_changed_file == self.data_file + '.json':
+            self.account = json_serialization.deserialize(last_changed_file)
+        elif last_changed_file == self.data_file + '.yaml':
+            self.account = yaml_serialization.deserialize(last_changed_file)
+
 
 
 if __name__ == "__main__":
