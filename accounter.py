@@ -27,7 +27,7 @@ class Accounter:
         return str(self.account)
 
     def add_new_data(self, value, comment,
-                     date=dt.datetime.now().strftime("%Y%m%d")):
+                     date=dt.datetime.now().strftime("%Y%m%d%H%M")):
         """Create new note from given value, date and comment.
            Date is read automatically from OS time.
            Date is python date.
