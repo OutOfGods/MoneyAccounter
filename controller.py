@@ -21,7 +21,7 @@ def start():
     acc = Accounter()
 
     acc.load_data()
-    acc.sort_by_date()
+    #acc.sort_by_date()
     load_to_table(ui, acc)
 
     ui.push_button.clicked.connect(make_push_button_clicked(acc, ui))
