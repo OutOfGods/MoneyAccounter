@@ -2,6 +2,11 @@ import _pickle as pickle
 import pandas as pd
 import _datetime as dt
 import configparser
+import os
+
+import pickle_serialization
+import json_serialization
+import yaml_serialization
 
 
 class Accounter:
@@ -442,17 +447,20 @@ class Accounter:
         """Load data from file."""
         config = configparser.ConfigParser()
         config.read(self.config_file)
-        if 'Serialization' in config:
-            if config['Serialization']['Method'] == 'pickle':
-                import pickle_serialization
-                self.account = pickle_serialization.deserialize(self.data_file + '.pickle')
-            elif config['Serialization']['Method'] == 'json':
-                print('here')
-                import json_serialization
-                self.account = json_serialization.deserialize(self.data_file + '.json')
-            elif config['Serialization']['Method'] == 'yaml':
-                import yaml_serialization
-                self.account = yaml_serialization.deserialize(self.data_file + '.yaml')
+        data_files = []
+        data_files.append(self.data_file + '.pickle')
+        data_files.append(self.data_file + '.json')
+        data_files.append(self.data_file + '.yaml')
+        print(data_files)
+        last_changed_file = max(data_files, key=lambda a: os.path.getmtime(a))
+        if last_changed_file == self.data_file + '.pickle':
+            self.account = pickle_serialization.deserialize(last_changed_file)
+        elif last_changed_file == self.data_file + '.json':
+            self.account = json_serialization.deserialize(last_changed_file)
+        elif last_changed_file == self.data_file + '.yaml':
+            self.account = yaml_serialization.deserialize(last_changed_file)
+
+
 
 if __name__ == "__main__":
     import doctest
