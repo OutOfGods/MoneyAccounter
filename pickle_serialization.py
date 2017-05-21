@@ -13,7 +13,6 @@ def deserialize(file):
     """
     Decode from binary row to Python-object using pickle.
     """
-    with open(file, 'rb') as f:
-        data = pickle.load(f)
+    data = pickle.load(file)
     return data
 

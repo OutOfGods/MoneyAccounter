@@ -34,7 +34,7 @@ def deserialize(file):
     """
     Decode from json file to Python-object.
     """
-    lst = json.load(f)
+    lst = json.load(file)
     for record in lst:
         record['date'] = pd.Timestamp(record['date'])
     return pd.DataFrame(lst)
