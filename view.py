@@ -41,8 +41,7 @@ def make_push_button_clicked(acc, ui):
         # print(ui.checkBox.isChecked())
         # print(date)
         if ui.use_this_date_cb.isChecked():
-            date_now = dt.datetime.now().strftime("%H%M")
-            date = ui.dateEdit.date().toPyDate().strftime("%Y%m%d") + date_now
+            date = ui.dateEdit.date().toPyDate().strftime("%Y%m%d")
             acc.add_new_data(value=value, comment=comment, date=date)
         else:
             acc.add_new_data(value=value, comment=comment)
@@ -68,8 +67,8 @@ def make_filter_button_clicked(acc, ui):
         new_acc = acc
         if ui.by_date_cb.isChecked():
             print("by date")
-            new_acc = new_acc.get_by_date(ui.from_date.date().toPyDate().strftime("%Y%m%d%H%M"),
-                                          ui.to_date.date().toPyDate().strftime("%Y%m%d%H%M"))
+            new_acc = new_acc.get_by_date(ui.from_date.date().toPyDate().strftime("%Y%m%d"),
+                                          ui.to_date.date().toPyDate().strftime("%Y%m%d"))
         if ui.sort_by_value_cb.isChecked():
             print("by val")
             new_acc.account = new_acc.account.sort_values(["value"])
