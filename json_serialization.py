@@ -23,25 +23,21 @@ class AccounterEncoder(json.JSONEncoder):
         return json.JSONEncoder.default(self, obj)
 
 
-def serialize(obj, file_name):
+def serialize(obj, file):
     """
     Encode obj to json format and write it into file.
     """
-    with open(file_name, 'w') as f:
-        json.dump(obj, f, cls=AccounterEncoder)
+    json.dump(obj, file, cls=AccounterEncoder)
 
 
-def deserialize(file_name):
+def deserialize(file):
     """
     Decode from json file to Python-object.
     """
-    try:
-        with open(file_name) as f:
-            lst = json.load(f)
-            for record in lst:
-                record['date'] = pd.Timestamp(record['date'])
-            return pd.DataFrame(lst)
-    except FileNotFoundError:
-        print("File not found")
+    lst = json.load(f)
+    for record in lst:
+        record['date'] = pd.Timestamp(record['date'])
+    return pd.DataFrame(lst)
+
 
 
