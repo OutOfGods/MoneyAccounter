@@ -2,7 +2,7 @@ import accounter
 import pandas as pd
 import yaml
 
-def serialize(obj, file_name):
+def serialize(obj, file):
     """
     Encode obj to yaml format and write it into file.
     """
@@ -13,22 +13,18 @@ def serialize(obj, file_name):
         row_dict['date'] = str(obj.account.iloc[i]['date'])
         row_dict['value'] = int(obj.account.iloc[i]['value'])
         rows_list.append(row_dict)
-    with open(file_name, 'w') as f:
-        yaml.dump(rows_list, f)
+
+    yaml.dump(rows_list, file)
 
 
-def deserialize(file_name):
+def deserialize(file):
     """
     Decode from yaml file to Python-object.
     """
-    try:
-        with open(file_name) as f:
-            obj = yaml.safe_load(f)
-            if obj is not None:
-                for record in obj:
-                    record['date'] = pd.Timestamp(record['date'])
-                return pd.DataFrame(obj)
-            return pd.DataFrame()
-    except FileNotFoundError:
-        print("File not found")
+    obj = yaml.safe_load(file)
+    if obj is not None:
+        for record in obj:
+            record['date'] = pd.Timestamp(record['date'])
+        return pd.DataFrame(obj)
+    return pd.DataFrame()
 

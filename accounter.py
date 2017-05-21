@@ -433,14 +433,14 @@ class Accounter:
         config.read(self.config_file)
         if 'Serialization' in config:
             if config['Serialization']['Method'] == 'pickle':
-                import pickle_serialization
-                pickle_serialization.serialize(self, self.data_file + '.pickle')
+                with open(self.data_file + '.pickle', 'wb') as f:
+                        pickle_serialization.serialize(self, f)
             elif config['Serialization']['Method'] == 'json':
-                import json_serialization
-                json_serialization.serialize(self, self.data_file + '.json')
+                with open(self.data_file + '.json', 'w') as f:
+                    json_serialization.serialize(self, f)
             elif config['Serialization']['Method'] == 'yaml':
-                import yaml_serialization
-                yaml_serialization.serialize(self, self.data_file + '.yaml')
+                with open(self.data_file + '.yaml', 'w') as f:
+                    yaml_serialization.serialize(self, f)
 
 
     def load_data(self):
@@ -454,11 +454,23 @@ class Accounter:
         print(data_files)
         last_changed_file = max(data_files, key=lambda a: os.path.getmtime(a))
         if last_changed_file == self.data_file + '.pickle':
-            self.account = pickle_serialization.deserialize(last_changed_file)
+            try:
+                with open(last_changed_file, 'rb') as f:
+                    self.account = pickle_serialization.deserialize(f)
+            except FileNotFoundError:
+                print('Pickle file with data not found')
         elif last_changed_file == self.data_file + '.json':
-            self.account = json_serialization.deserialize(last_changed_file)
+            try:
+                with open(last_changed_file, 'r') as f:
+                    self.account = json_serialization.deserialize(f)
+            except FileNotFoundError:
+                print('JSON file with data not found')
         elif last_changed_file == self.data_file + '.yaml':
-            self.account = yaml_serialization.deserialize(last_changed_file)
+            try:
+                with open(last_changed_file, 'r') as f:
+                    self.account = yaml_serialization.deserialize(f)
+            except FileNotFoundError:
+                print('YAML file with data not found')
 
 
 
