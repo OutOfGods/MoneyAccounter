@@ -442,7 +442,6 @@ class Accounter:
                 with open(self.data_file + '.yaml', 'w') as f:
                     yaml_serialization.serialize(self, f)
 
-
     def load_data(self):
         """Load data from file."""
         config = configparser.ConfigParser()
@@ -471,7 +470,6 @@ class Accounter:
                     self.account = yaml_serialization.deserialize(f)
             except FileNotFoundError:
                 print('YAML file with data not found')
-
 
 
 if __name__ == "__main__":
