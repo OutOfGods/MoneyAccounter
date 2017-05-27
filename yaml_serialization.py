@@ -24,7 +24,7 @@ def deserialize(file):
     obj = yaml.safe_load(file)
     if obj is not None:
         for record in obj:
-            record['date'] = pd.Timestamp(record['date']).strftime("%Y%m%d")
+            record['date'] = pd.Timestamp(record['date'])
         return pd.DataFrame(obj)
     return pd.DataFrame()
 
