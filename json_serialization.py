@@ -36,7 +36,7 @@ def deserialize(file):
     """
     lst = json.load(file)
     for record in lst:
-        record['date'] = pd.Timestamp(record['date']).strftime("%Y%m%d")
+        record['date'] = pd.Timestamp(record['date'])
     return pd.DataFrame(lst)
 
 

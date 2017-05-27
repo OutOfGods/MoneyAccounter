@@ -7,7 +7,7 @@ def row_to_table(ui, row_series, num=None):
         num = ui.table.rowCount()
     ui.table.insertRow(num)
     ui.table.setItem(num, 0, QTableWidgetItem(str(row_series['value'])))
-    ui.table.setItem(num, 1, QTableWidgetItem(row_series['date'].strftime("%d/%m/%Y")))
+    ui.table.setItem(num, 1, QTableWidgetItem(row_series['date'].strftime("%Y%m%d")))
     ui.table.setItem(num, 2, QTableWidgetItem(row_series['comment']))
 
 
