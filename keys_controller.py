@@ -28,9 +28,9 @@ class KeysController:
     parser.add_argument("-cs", action='store', default="",
                         help="search by comment '-cs 'comment''")
     parser.add_argument("-gis", action='store_true',
-                        help="print accouter")
+                        help="print income sum")
     parser.add_argument("-gos", action='store_true',
-                        help="print accouter")
+                        help="print outcome sum")
 
     def __init__(self):
         self.args = self.parser.parse_args()
