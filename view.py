@@ -40,13 +40,20 @@ def make_push_button_clicked(acc, ui):
         comment = ui.commentLine.text()
         # print(ui.checkBox.isChecked())
         # print(date)
-        if ui.use_this_date_cb.isChecked():
-            date = ui.dateEdit.date().toPyDate().strftime("%Y%m%d")
-            acc.add_new_data(value=value, comment=comment, date=date)
+        try:
+            intvalue = int(value)
+        except ValueError:
+            pass
         else:
-            acc.add_new_data(value=value, comment=comment)
-        row_to_table(ui, acc.account.iloc[len(acc.account.index)-1], 0)
-        ui.balance_l.setText(str(acc.get_sum()))
+            if ui.use_this_date_cb.isChecked():
+                date = ui.dateEdit.date().toPyDate().strftime("%Y%m%d")
+                acc.add_new_data(value=value, comment=comment, date=date)
+            else:            
+                acc.add_new_data(value=int(value), comment=comment)
+            
+            row_to_table(ui, acc.account.iloc[len(acc.account.index)-1], 0)
+            ui.balance_l.setText(str(acc.get_sum()))
+            
     return push_button_clicked
 
 

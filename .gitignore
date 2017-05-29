@@ -1,5 +1,11 @@
 gui.ui
 
+.idea/misc.xml
+.idea/modules.xml
+.idea/money.iml
+accounter.html
+
+
 ########################################################################3
 
 # Created by https://www.gitignore.io/api/qt,joe,linux,emacs,python,windows,pycharm
