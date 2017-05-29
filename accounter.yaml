@@ -1,3 +1,4 @@
+- {comment: fuck, date: '2017-04-28 00:00:00', value: 123}
 - {comment: '', date: '2017-05-24 00:00:00', value: 45}
 - {comment: comment, date: '2017-05-24 00:00:00', value: 45}
 - {comment: comment2, date: '2017-05-24 00:00:00', value: 455}
@@ -7,3 +8,6 @@
 - {comment: sdfsdf, date: '2017-05-24 00:00:00', value: 123}
 - {comment: sdfsdf, date: '2017-05-24 00:00:00', value: 123}
 - {comment: sdfsdf, date: '2017-05-24 00:00:00', value: 123}
+- {comment: '', date: '2017-05-29 00:00:00', value: 123}
+- {comment: '', date: '2017-05-29 00:00:00', value: 124}
+- {comment: fuck, date: '2017-05-29 00:00:00', value: 123}
