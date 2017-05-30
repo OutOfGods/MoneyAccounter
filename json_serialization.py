@@ -23,21 +23,23 @@ class AccounterEncoder(json.JSONEncoder):
         return json.JSONEncoder.default(self, obj)
 
 
-def serialize(obj, file):
-    """
-    Encode obj to json format and write it into file.
-    """
-    json.dump(obj, file, cls=AccounterEncoder)
+class JSONSerializer:
+
+    def serialize(self, obj, file):
+        """
+        Encode obj to json format and write it into file.
+        """
+        json.dump(obj, file, cls=AccounterEncoder)
 
 
-def deserialize(file):
-    """
-    Decode from json file to Python-object.
-    """
-    lst = json.load(file)
-    for record in lst:
-        record['date'] = pd.Timestamp(record['date'])
-    return pd.DataFrame(lst)
+    def deserialize(self, file):
+        """
+        Decode from json file to Python-object.
+        """
+        lst = json.load(file)
+        for record in lst:
+            record['date'] = pd.Timestamp(record['date'])
+        return pd.DataFrame(lst)
 
 
 

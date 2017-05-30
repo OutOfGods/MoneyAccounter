@@ -22,11 +22,13 @@ class UIController:
         acc = Accounter()
         acc.load_data()
         acc.sort_by_date()
-        load_to_table(ui, acc)
+        ui_helper = Helper()
+        ui_helper.load_to_table(ui, acc)
 
-        ui.push_button.clicked.connect(make_push_button_clicked(acc, ui))
-        ui.pop_button.clicked.connect(make_pop_button_clicked(acc, ui))
-        ui.filter_button.clicked.connect(make_filter_button_clicked(acc, ui))
+        interface = Interface()
+        ui.push_button.clicked.connect(interface.make_push_button_clicked(acc, ui))
+        ui.pop_button.clicked.connect(interface.make_pop_button_clicked(acc, ui))
+        ui.filter_button.clicked.connect(interface.make_filter_button_clicked(acc, ui))
 
         window.show()
         app.exec_()

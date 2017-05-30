@@ -4,15 +4,16 @@ import _datetime as dt
 import configparser
 import os
 
-import pickle_serialization
-import json_serialization
-import yaml_serialization
+import pickle_serialization as pick_s
+import json_serialization as json_s
+import yaml_serialization as yaml_s
 
 
 class Accounter:
     """This class implements simple money accounter.
        You can use it for storing notes about your income and
        outcome, search notes and group them by their attributes."""
+
     def __init__(self, acc=pd.DataFrame(), data_file='accounter', config_file='configuration.ini'):
         """Create new Accounter object from existing DataFrame.
         >>> print(Accounter())
@@ -25,6 +26,9 @@ class Accounter:
         self.account = acc
         self.data_file = data_file
         self.config_file = config_file
+        self.json_serializer = json_s.JSONSerializer()
+        self.pickle_serializer = pick_s.PickleSerializer()
+        self.yaml_serializer = yaml_s.YAMLSerializer()
 
     def __str__(self):
         if len(self.account) == 0:
@@ -434,13 +438,13 @@ class Accounter:
         if 'Serialization' in config:
             if config['Serialization']['Method'] == 'pickle':
                 with open(self.data_file + '.pickle', 'wb') as f:
-                        pickle_serialization.serialize(self, f)
+                        self.pickle_serializer.serialize(self, f)
             elif config['Serialization']['Method'] == 'json':
                 with open(self.data_file + '.json', 'w') as f:
-                    json_serialization.serialize(self, f)
+                    self.json_serializer.serialize(self, f)
             elif config['Serialization']['Method'] == 'yaml':
                 with open(self.data_file + '.yaml', 'w') as f:
-                    yaml_serialization.serialize(self, f)
+                    self.yaml_serializer.serialize(self, f)
 
     def load_data(self):
         """Load data from file."""
@@ -450,24 +454,24 @@ class Accounter:
         data_files.append(self.data_file + '.pickle')
         data_files.append(self.data_file + '.json')
         data_files.append(self.data_file + '.yaml')
-        print(data_files)
+        # print(data_files)
         last_changed_file = max(data_files, key=lambda a: os.path.getmtime(a))
         if last_changed_file == self.data_file + '.pickle':
             try:
                 with open(last_changed_file, 'rb') as f:
-                    self.account = pickle_serialization.deserialize(f)
+                    self.account = self.pickle_serializer.deserialize(f)
             except FileNotFoundError:
                 print('Pickle file with data not found')
         elif last_changed_file == self.data_file + '.json':
             try:
                 with open(last_changed_file, 'r') as f:
-                    self.account = json_serialization.deserialize(f)
+                    self.account = self.json_serializer.deserialize(f)
             except FileNotFoundError:
                 print('JSON file with data not found')
         elif last_changed_file == self.data_file + '.yaml':
             try:
                 with open(last_changed_file, 'r') as f:
-                    self.account = yaml_serialization.deserialize(f)
+                    self.account = self.yaml_serializer.deserialize(f)
             except FileNotFoundError:
                 print('YAML file with data not found')
 
