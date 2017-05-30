@@ -7,34 +7,43 @@ from view import *
 
 
 class UIController:
-    def __init__(self):
         """Starts application"""
-        app = QApplication(sys.argv)
-        window = QDialog()
-        QShortcut(QKeySequence("Ctrl+Q"), window, window.close)
+        def app_init(self):
+            self.app = QApplication(sys.argv)
+            self.window = QDialog()
+            QShortcut(QKeySequence("Ctrl+Q"), self.window, self.window.close)
 
-        ui = Ui_MainWindow()
-        ui.setupUi(window)
-        ui.dateEdit.setDate(QDate.currentDate())
-        ui.from_date.setDate(QDate.currentDate())
-        ui.to_date.setDate(QDate.currentDate())
+        def ui_setup(self):
+            self.ui = Ui_MainWindow()
+            self.ui.setupUi(self.window)
+            self.ui.dateEdit.setDate(QDate.currentDate())
+            self.ui.from_date.setDate(QDate.currentDate())
+            self.ui.to_date.setDate(QDate.currentDate())
 
-        acc = Accounter()
-        acc.load_data()
-        acc.sort_by_date()
-        ui_helper = Helper()
-        ui_helper.load_to_table(ui, acc)
+        def load_data(self):
+            self.acc = Accounter()
+            self.acc.load_data()
+            self.acc.sort_by_date()
+            ui_helper = Helper()
+            ui_helper.load_to_table(self.ui, self.acc)
 
-        interface = Interface()
-        ui.push_button.clicked.connect(interface.make_push_button_clicked(acc, ui))
-        ui.pop_button.clicked.connect(interface.make_pop_button_clicked(acc, ui))
-        ui.filter_button.clicked.connect(interface.make_filter_button_clicked(acc, ui))
+        def interface_setup(self):
+            self.interface = Interface()
+            self.ui.push_button.clicked.connect(self.interface.make_push_button_clicked(self.acc, self.ui))
+            self.ui.pop_button.clicked.connect(self.interface.make_pop_button_clicked(self.acc, self.ui))
+            self.ui.filter_button.clicked.connect(self.interface.make_filter_button_clicked(self.acc, self.ui))
 
-        window.show()
-        app.exec_()
-        acc.save_data()
-        sys.exit()
+        def app_run(self):
+            self.window.show()
+            self.app.exec_()
+            self.acc.save_data()
+            sys.exit()
 
 
 if __name__ == "__main__":
     controller = UIController()
+    controller.app_init()
+    controller.ui_setup()
+    controller.load_data()
+    controller.interface_setup()
+    controller.app_run()

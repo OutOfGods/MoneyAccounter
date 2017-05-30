@@ -8,5 +8,10 @@ if __name__ == "__main__":
     if 'Controller' in config:
         if config['Controller']['Type'] == 'ui':
             controller = UIController()
+            controller.app_init()
+            controller.ui_setup()
+            controller.load_data()
+            controller.interface_setup()
+            controller.app_run()
         elif config['Controller']['Type'] == 'keys':
             controller = KeysController()
