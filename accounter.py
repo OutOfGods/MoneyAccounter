@@ -35,6 +35,15 @@ class Accounter:
             return 'List of notes is empty'
         return str(self.account)
 
+    def __eq__(self, other):
+        return self.account == other.account
+
+    def __len__(self):
+        return len(self.account)
+
+    def __iter__(self):
+        return AccounterIterator(self)
+
     def add_new_data(self, value, comment,
                      date=dt.datetime.now().strftime("%Y%m%d")):
         """Create new note from given value, date and comment.
@@ -474,6 +483,22 @@ class Accounter:
                     self.account = self.yaml_serializer.deserialize(f)
             except FileNotFoundError:
                 print('YAML file with data not found')
+
+
+class AccounterIterator:
+    """ Class Iterator for Accounter """
+    def __init__(self, accounter):
+        self.accounter = accounter
+        self.start = 0
+        self.stop = len(accounter)
+        self.index = self.start - 1
+
+    def __next__(self):
+        self.index += 1
+        if self.index == self.stop:
+            raise StopIteration
+        return self.accounter.account.iloc[self.index]
+
 
 
 if __name__ == "__main__":
