@@ -289,4 +289,5 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# End of https://www.gitignore.io/api/qt,joe,linux,emacs,python,windows,pycharm
+# End of https://www.gitignore.io/api/qt,joe,linux,emacs,python,windows,pycharmREADME.html
+README.html
