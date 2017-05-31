@@ -1,8 +1,8 @@
 from PyQt5.QtWidgets import *
 import _datetime as dt
 
-class Helper:
 
+class Helper:
     def row_to_table(self, ui, row_series, num=None):
         """Writes row_series to ui.table"""
         if num is None:
@@ -40,9 +40,9 @@ class Helper:
 
 
 class Interface:
-
     def make_push_button_clicked(self, acc, ui):
         """Function for push button clocking"""
+
         def push_button_clicked():
             # print(acc.account)
             value = ui.amountLine.text()
@@ -61,27 +61,30 @@ class Interface:
                     acc.add_new_data(value=int(value), comment=comment)
 
                 ui_helper = Helper()
-                ui_helper.row_to_table(ui, acc.account.iloc[len(acc.account.index)-1], 0)
+                ui_helper.row_to_table(ui, acc.account.iloc[len(acc.account.index) - 1], 0)
                 ui.balance_l.setText(str(acc.get_sum()))
-            
+
         return push_button_clicked
 
     def make_pop_button_clicked(self, acc, ui):
         """Function for pop button clocking"""
+
         def pop_button_clicked():
             acc.drop_last()
             ui.balance_l.setText(str(acc.get_sum()))
             # print(acc)
             ui.table.removeRow(0)
+
         return pop_button_clicked
 
     def make_filter_button_clicked(self, acc, ui):
         """Function for filter button clocking"""
+
         def filter_button_clicked():
             new_acc = acc
             if ui.by_date_cb.isChecked():
                 new_acc = new_acc.get_by_date(ui.from_date.date().toPyDate().strftime("%Y%m%d"),
-                                          ui.to_date.date().toPyDate().strftime("%Y%m%d"))
+                                              ui.to_date.date().toPyDate().strftime("%Y%m%d"))
             if ui.sort_by_value_cb.isChecked():
                 new_acc.account = new_acc.account.sort_values(["value"])
             if ui.by_comment_cb.isChecked():
@@ -90,5 +93,5 @@ class Interface:
                 ui.table.removeRow(0)
             ui_helper = Helper()
             ui_helper.load_to_table(ui, new_acc)
-        return filter_button_clicked
 
+        return filter_button_clicked

@@ -5,12 +5,13 @@ from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QApplication, QDialog, QShortcut
 from PyQt5.QtCore import QDate
 from PyQt5.QtGui import QKeySequence
-import sys 
+import sys
 
 import ui_controller as uic
 import ui_window as uiw
 import accounter
 from view import Helper, Interface
+
 
 class TestStuff(ut.TestCase):
     @classmethod
@@ -30,12 +31,12 @@ class TestStuff(ut.TestCase):
     def test_app_init(self, mock_ks_init, mock_sh_init, mock_qd_init, mock_qa_init):
         args = "args to call with"
         sys.argv = args
-        
+
         mock_ks_init.return_value = None
         mock_sh_init.return_value = None
         mock_qd_init.return_value = None
         mock_qa_init.return_value = None
-        
+
         uic.UIController().app_init()
         mock_qa_init.assert_called_with(args)
         mock_qd_init.assert_called()
@@ -58,7 +59,7 @@ class TestStuff(ut.TestCase):
         self.ui.use_this_date_cb.setChecked(False)
         self.ui.amountLine.setText("123")
         self.ui.commentLine.setText("opana")
-        
+
         Interface().make_push_button_clicked(self.a, self.ui)()
         mock_add.assert_called_with(comment="opana", value=123)
 
@@ -72,7 +73,7 @@ class TestStuff(ut.TestCase):
         self.ui.sort_by_value_cb.setChecked(True)
         self.ui.by_comment_cb.setChecked(True)
         Interface().make_filter_button_clicked(self.a, self.ui)()
-        
-    
+
+
 if __name__ == "__main__":
     ut.main()

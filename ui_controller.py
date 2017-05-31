@@ -50,4 +50,3 @@ class UIController:
 
 if __name__ == "__main__":
     UIController().setup_and_run()
-    

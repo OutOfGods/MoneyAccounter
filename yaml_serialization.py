@@ -2,6 +2,7 @@ import accounter
 import pandas as pd
 import yaml
 
+
 class YAMLSerializer:
     def serialize(self, obj, file):
         """
@@ -17,7 +18,6 @@ class YAMLSerializer:
 
         yaml.dump(rows_list, file)
 
-
     def deserialize(self, file):
         """
         Decode from yaml file to Python-object.
@@ -28,4 +28,3 @@ class YAMLSerializer:
                 record['date'] = pd.Timestamp(record['date'])
             return pd.DataFrame(obj)
         return pd.DataFrame()
-

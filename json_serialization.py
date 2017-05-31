@@ -2,10 +2,12 @@ import json
 import accounter
 import pandas as pd
 
+
 class AccounterEncoder(json.JSONEncoder):
     """Extension for json.JSONEncoder class which can encode
        objects of type Accounter.
     """
+
     def default(self, obj):
         """
         Extension for json.JSONEncoder.default function with adding
@@ -24,13 +26,11 @@ class AccounterEncoder(json.JSONEncoder):
 
 
 class JSONSerializer:
-
     def serialize(self, obj, file):
         """
         Encode obj to json format and write it into file.
         """
         json.dump(obj, file, cls=AccounterEncoder)
-
 
     def deserialize(self, file):
         """
@@ -40,6 +40,3 @@ class JSONSerializer:
         for record in lst:
             record['date'] = pd.Timestamp(record['date'])
         return pd.DataFrame(lst)
-
-
-

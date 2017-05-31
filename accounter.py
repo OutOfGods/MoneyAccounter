@@ -333,7 +333,7 @@ class Accounter:
         **************************************************
         List of notes is empty
         """
-        print('*'*50)
+        print('*' * 50)
         print(self)
 
     def sort_by_date(self):
@@ -450,7 +450,7 @@ class Accounter:
         if 'Serialization' in config:
             if config['Serialization']['Method'] == 'pickle':
                 with open(self.data_file + '.pickle', 'wb') as f:
-                        self.pickle_serializer.serialize(self, f)
+                    self.pickle_serializer.serialize(self, f)
             elif config['Serialization']['Method'] == 'json':
                 with open(self.data_file + '.json', 'w') as f:
                     self.json_serializer.serialize(self, f)
@@ -490,6 +490,7 @@ class Accounter:
 
 class AccounterIterator:
     """ Class Iterator for Accounter """
+
     def __init__(self, accounter):
         self.accounter = accounter
         self.start = 0
@@ -503,7 +504,7 @@ class AccounterIterator:
         return self.accounter.account.iloc[self.index]
 
 
-
 if __name__ == "__main__":
     import doctest
+
     doctest.testmod()
