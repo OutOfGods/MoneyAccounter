@@ -1,5 +1,5 @@
 ### Run program like:
-`python3 ui_controller.py`
+`python3 main.py`
 
 ### Run tests like:
 `./run-tests.sh`
