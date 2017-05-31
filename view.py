@@ -78,7 +78,6 @@ class Interface:
     def make_filter_button_clicked(self, acc, ui):
         """Function for filter button clocking"""
         def filter_button_clicked():
-            print("filter")
             new_acc = acc
             if ui.by_date_cb.isChecked():
                 new_acc = new_acc.get_by_date(ui.from_date.date().toPyDate().strftime("%Y%m%d"),
@@ -87,7 +86,6 @@ class Interface:
                 new_acc.account = new_acc.account.sort_values(["value"])
             if ui.by_comment_cb.isChecked():
                 new_acc = new_acc.get_by_comment(ui.by_comment_le.text())
-            print(new_acc)
             while ui.table.rowCount() > 0:
                 ui.table.removeRow(0)
             ui_helper = Helper()
