@@ -1,11 +1,3 @@
-- {comment: fuck, date: '2017-04-28 00:00:00', value: 123}
-- {comment: '', date: '2017-05-24 00:00:00', value: 45}
-- {comment: comment, date: '2017-05-24 00:00:00', value: 45}
-- {comment: comment2, date: '2017-05-24 00:00:00', value: 455}
-- {comment: sdfsdf, date: '2017-05-24 00:00:00', value: 234}
-- {comment: sdfsdf, date: '2017-05-24 00:00:00', value: 234}
-- {comment: sdfsdf, date: '2017-05-24 00:00:00', value: 123}
-- {comment: sdfsdf, date: '2017-05-24 00:00:00', value: 123}
-- {comment: sdfsdf, date: '2017-05-24 00:00:00', value: 123}
-- {comment: sdfsdf, date: '2017-05-24 00:00:00', value: 123}
-- {comment: vasya, date: '2017-05-30 00:00:00', value: 45}
+- {comment: new, date: '2017-05-31 00:00:00', value: 123455}
+- {comment: new1, date: '2017-05-31 00:00:00', value: -123}
+- {comment: '', date: '2017-05-31 00:00:00', value: 3}

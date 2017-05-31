@@ -66,6 +66,9 @@ class Accounter:
         self.account = self.account.append(day)
         self.account = self.account.reset_index(drop=True)
 
+    def drop_last(self):
+        self.account = self.account.drop(self.account.tail(1).index)
+
     def drop_data(self):
         """Delete all notes.
         >>> acc = Accounter()

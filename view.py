@@ -24,7 +24,7 @@ class Helper:
         ui.table.setColumnWidth(1, 100)
         ui.table.horizontalHeader().setSectionResizeMode(2, QHeaderView.Stretch)
 
-        print(acc)
+        # print(acc)
         ui.balance_l.setText("0")
         for i, row in acc.account.iloc[::-1].iterrows():
             # print(i)
@@ -69,7 +69,7 @@ class Interface:
     def make_pop_button_clicked(self, acc, ui):
         """Function for pop button clocking"""
         def pop_button_clicked():
-            acc.account = acc.account.drop(acc.account.tail(1).index)
+            acc.drop_last()
             ui.balance_l.setText(str(acc.get_sum()))
             # print(acc)
             ui.table.removeRow(0)
@@ -81,14 +81,11 @@ class Interface:
             print("filter")
             new_acc = acc
             if ui.by_date_cb.isChecked():
-                print("by date")
                 new_acc = new_acc.get_by_date(ui.from_date.date().toPyDate().strftime("%Y%m%d"),
                                           ui.to_date.date().toPyDate().strftime("%Y%m%d"))
             if ui.sort_by_value_cb.isChecked():
-                print("by val")
                 new_acc.account = new_acc.account.sort_values(["value"])
             if ui.by_comment_cb.isChecked():
-                print("by comment")
                 new_acc = new_acc.get_by_comment(ui.by_comment_le.text())
             print(new_acc)
             while ui.table.rowCount() > 0:

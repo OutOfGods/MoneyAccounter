@@ -1,6 +1,7 @@
 import sys
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
+from PyQt5.QtWidgets import QApplication, QDialog, QShortcut
+from PyQt5.QtCore import QDate
+from PyQt5.QtGui import QKeySequence
 from accounter import Accounter
 from ui_window import Ui_MainWindow
 from view import *
@@ -39,11 +40,14 @@ class UIController:
             self.acc.save_data()
             sys.exit()
 
+        def setup_and_run(self):
+                self.app_init()
+                self.ui_setup()
+                self.load_data()
+                self.interface_setup()
+                self.app_run()
+
 
 if __name__ == "__main__":
-    controller = UIController()
-    controller.app_init()
-    controller.ui_setup()
-    controller.load_data()
-    controller.interface_setup()
-    controller.app_run()
+    UIController().setup_and_run()
+    
